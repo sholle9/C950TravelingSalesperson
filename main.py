@@ -1,7 +1,15 @@
 # This is a sample Python script.
+import csv
+
+from Objects.HashTable import ChainingHashTable
+from Objects.Package import loadPackageData
 
 # Press Shift+F10 to execute it or replace it with your code.
 # Press Double Shift to search everywhere for classes, files, tool windows, actions, and settings.
+
+
+loadPackageData('C:\dev\SKatuzienski_TaskC950\PackagesList.csv')
+
 
 
 def menu():
@@ -11,17 +19,6 @@ def menu():
     print("Option: 4")
     print("Option: 5")
     print("Option 0: Exit")
-
-def loadData():
-    # read from package file
-    # read from distance table
-    print("Loaded data")
-
-# Press the green button in the gutter to run the script.
-if __name__ == '__main__':
-
-    loadData()
-    #Run Simulation
 
     menu()
     option = int(input("Choose option: "))
