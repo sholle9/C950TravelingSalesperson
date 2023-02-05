@@ -7,12 +7,13 @@
 from Objects.HashTable import ChainingHashTable
 from Objects.Package import loadPackageData, Package
 from Objects.Distance import loadDistanceData, Distance
+from Objects.Address import loadAddressData, Address
 
 # Create Hash Tables
 packages = ChainingHashTable(40)
 trucks = ChainingHashTable()
 distances = ChainingHashTable(27)
-addresses = ChainingHashTable()
+addresses = ChainingHashTable(27)
 
 # Initalize tables with Columns
 #packages = Package
@@ -23,6 +24,7 @@ addresses = ChainingHashTable()
 # Load: packages, trucks, distance
 loadPackageData(packages)
 loadDistanceData(distances)
+loadAddressData(addresses)
 
 #loadTrucks(distances, packages, trucks)
 
@@ -35,6 +37,8 @@ for i in range (len(packages.table)):
 for k in range(len(distances.table)):
     print("Distance: {}".format(distances.search(k+1)))  # 1 to 40 is sent to packages.search()
 
+for j in range(len(addresses.table)):
+    print("Address: {}".format(addresses.search(j+1)))  # 1 to 40 is sent to packages.search()
 
 def menu():
     print("Option: 1")
