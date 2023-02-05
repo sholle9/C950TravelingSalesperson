@@ -2,7 +2,7 @@
 class ChainingHashTable:
     # Constructor with optional initial capacity parameter.
     # Assigns all nodes with an empty list.
-    def __init__(self, initial_capacity=40):
+    def __init__(self, initial_capacity =10):
         # initialize the hash table with empty node list entries.
         self.table = []
         for i in range(initial_capacity):

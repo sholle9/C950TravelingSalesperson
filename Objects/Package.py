@@ -21,7 +21,7 @@ class Package:
 
 
 def loadPackageData(packageHashTable):
-    fileName = 'C:\dev\SKatuzienski_TaskC950\PackagesList.csv'
+    fileName = 'C:\dev\SKatuzienski_TaskC950\PackageList.csv'
     with open(fileName) as packages:
         packageData = csv.reader(packages, delimiter=',')
         next(packageData)  # skip header
