@@ -21,6 +21,5 @@ def loadAddressData(addressHashTable):
             aID = int(address[0])
             aAddress = str(address[1])
 
-
             a = Address(aID, aAddress)
             addressHashTable.insert(aID, a)
