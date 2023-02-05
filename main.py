@@ -1,14 +1,43 @@
-# This is a sample Python script.
-import csv
+# This is my header that i will fill in with information like
+# Name
+# Class
+# Date
+# Description:
 
 from Objects.HashTable import ChainingHashTable
-from Objects.Package import loadPackageData
+from Objects.Package import loadPackageData, Package
 
-# Press Shift+F10 to execute it or replace it with your code.
-# Press Double Shift to search everywhere for classes, files, tool windows, actions, and settings.
+# Create Hash Tables
+packages = ChainingHashTable()
+trucks = ChainingHashTable()
+distances = ChainingHashTable()
+addresses = ChainingHashTable()
+
+# Initalize tables with Columns
+#packages = Package
+#trucks = Truck
+#distances = Distance
+
+# Load Data into Objects
+# Load: packages, trucks, distance
+loadPackageData(packages)
+#loadDistanceData(distances)
+
+#loadTrucks(distances, packages, trucks)
 
 
-loadPackageData('C:\dev\SKatuzienski_TaskC950\PackagesList.csv')
+
+# Fetch data from Hash Table
+for i in range (len(packages.table)+1):
+    print("Package{}".format(packages.search(i))) # 1 to 40 is sent to packages.search()
+
+
+
+
+
+
+
+
 
 
 

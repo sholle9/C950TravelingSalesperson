@@ -15,38 +15,14 @@ class Package:
         self._weight = weight
         self._status = status
 
-    def __str__(self, id, address, city, state, zip, deadline, weight, status):
-        return "%s, %s, %s, %s, %s, %s, %s, %s" % (
-            self._id, self._address, self._city, self._state, self._deadline, self._weight, self._status)
-
-    # def id(self):
-    #     return self._id
-    #
-    # def address(self):
-    #     return self._address
-    #
-    # def city(self):
-    #     return self._city
-    #
-    # def state(self):
-    #     return self._state
-    #
-    # def zip(self):
-    #     return self._zip
-    #
-    # def deadline(self):
-    #     return self._deadline
-    #
-    # def weight(self):
-    #     return self._weight
-    #
-    # def status(self):
-    #     return self._status
+    def __str__(self):
+        return " %s, %s, %s, %s, %s, %s, %s, %s" % (
+            self._id, self._address, self._city, self._state, self._zip, self._deadline, self._weight, self._status)
 
 
-def loadPackageData(fileName):
+def loadPackageData(packageHashTable):
+    fileName = 'C:\dev\SKatuzienski_TaskC950\PackagesList.csv'
     with open(fileName) as packages:
-        myHash = ChainingHashTable()
         packageData = csv.reader(packages, delimiter=',')
         next(packageData)  # skip header
         for package in packageData:
@@ -60,6 +36,5 @@ def loadPackageData(fileName):
             pStatus = 'TBD'
 
             p = Package(pID, pAddress, pCity, pState, pZip, pDeadline, pWeight, pStatus)
-            myHash.insert(pID, p)
+            packageHashTable.insert(pID, p)
 
-        print(myHash.table)
