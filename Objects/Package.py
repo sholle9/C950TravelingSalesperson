@@ -1,23 +1,21 @@
 import csv
 
-from Objects.HashTable import ChainingHashTable
-
 
 class Package:
 
-    def __init__(self, id, address, city, state, zip, deadline, weight, status):
-        self._id = id
-        self._address = address
-        self._city = city
-        self._state = state
-        self._zip = zip
-        self._deadline = deadline
-        self._weight = weight
-        self._status = status
+    def __init__(self, id, address, city, state, zipCode, deadline, weight, status):
+        self.id = id
+        self.address = address
+        self.city = city
+        self.state = state
+        self.zipCode = zipCode
+        self.deadline = deadline
+        self.weight = weight
+        self.status = status
 
     def __str__(self):
         return " %s, %s, %s, %s, %s, %s, %s, %s" % (
-            self._id, self._address, self._city, self._state, self._zip, self._deadline, self._weight, self._status)
+            self.id, self.address, self.city, self.state, self.zipCode, self.deadline, self.weight, self.status)
 
 
 def loadPackageData(packageHashTable):
@@ -30,11 +28,10 @@ def loadPackageData(packageHashTable):
             pAddress = str(package[1])
             pCity = str(package[2])
             pState = str(package[3])
-            pZip = int(package[4])
+            pZipCode = int(package[4])
             pDeadline = str(package[5])
             pWeight = int(package[6])
             pStatus = 'TBD'
 
-            p = Package(pID, pAddress, pCity, pState, pZip, pDeadline, pWeight, pStatus)
+            p = Package(pID, pAddress, pCity, pState, pZipCode, pDeadline, pWeight, pStatus)
             packageHashTable.insert(pID, p)
-
