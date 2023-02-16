@@ -1,5 +1,3 @@
-import random
-
 class Truck:
 
     def __init__(self, id, packages):

@@ -12,10 +12,11 @@ class Package:
         self.deadline = deadline
         self.weight = weight
         self.status = status
+        self.timeDelivered = 0.0
 
     def __str__(self):
-        return " %s, %s, %s, %s, %s, %s, %s, %s" % (
-            self.id, self.address, self.city, self.state, self.zipCode, self.deadline, self.weight, self.status)
+        return " %s, %s, %s, %s, %s, %s, %s, %s, %s" % (
+            self.id, self.address, self.city, self.state, self.zipCode, self.deadline, self.weight, self.status, self.timeDelivered)
 
 
 def loadPackageData(packageHashTable):
@@ -31,7 +32,7 @@ def loadPackageData(packageHashTable):
             pZipCode = int(package[4])
             pDeadline = str(package[5])
             pWeight = int(package[6])
-            pStatus = 'TBD'
+            pStatus = 'En Route'
 
             p = Package(pID, pAddress, pCity, pState, pZipCode, pDeadline, pWeight, pStatus)
             packageHashTable.insert(pID, p)

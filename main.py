@@ -20,22 +20,12 @@ trucks = []
 distances = []
 addresses = []
 
+
 # Load Data into Objects
 # Load: packages, trucks, distance
 loadAddressData(addresses)
 loadDistanceData(distances)
 loadPackageData(packages)
-
-# loadTrucks(distances, packages, trucks)
-# def loadTrucks(distances, packages, trucks):
-#     packageIdToInsert = random.randint(0, len(packages.table) - 1)
-#     trucks.insert(0,packages.table[packageIdToInsert][0][0])
-#     while True:
-#         #look up closest package by distance to current package
-#         distances[]
-#
-#         #add to array
-#         #once we hit 8 packages, break
 
 def getIndexForAddress(addressToFind):
     # Loop through the distanceArray comparing element 0
@@ -44,10 +34,11 @@ def getIndexForAddress(addressToFind):
             return i
     pass
 
+# getDistancesBetweenAddresses uses two address strings
 def getDistancesBetweenAddresses(startAddress, endAddress):
     startingIndex = getIndexForAddress(startAddress)
     endIndex = getIndexForAddress(endAddress) + 1
-    return distances[startingIndex][endIndex]
+    return float(distances[startingIndex][endIndex])
 
 def getShortestDistanceFromAddress(addressId):
     minDistance = 100.0
@@ -65,49 +56,65 @@ def getShortestDistanceFromAddress(addressId):
 
     return addressIdOfShortestDistance
 
-print(getShortestDistanceFromAddress(26))
-
 def deliverTruck(truck):
 
+    totalDistance: float = 0.0
     while truck.hasMorePackages():
-        shortestDistance = 100
-        startingAddressId = 0
-        packageIdToDeliver = 0
+        shortestDistance = float(100)
+        startingAddressName = 'HUB'
 
         #if len(truck.loadedPackages == 1):
             #deliver the last package
             #deliverPackage(truck.loadedPackages[0])
 
-        for packageID in range(len(truck.loadedPackages)):
-            # check to see if I'm the nearest package
-            # get package
+        for i in range(len(truck.loadedPackages)):
+            # get package number from truck list
+            packageID = int(truck.loadedPackages[i])
+
+            # associated int with the packageID from the packages hash table
             package = packages.search(packageID)
 
-            # find addressId associated with package address
-            addressId = getIndexForAddress(package.address)
+            # find addressName associated with package address from the distanceArray
+            addressName = package.address
 
-            # package with the address closest to this one
-            if shortestDistance > getDistancesBetweenAddresses(startingAddressId, addressId):
-                startingAddressId = addressId
+            # check to see if I'm the nearest package
+            if shortestDistance > getDistancesBetweenAddresses(startingAddressName, addressName) and getDistancesBetweenAddresses(startingAddressName, addressName) != 0:
+                shortestDistance = getDistancesBetweenAddresses(startingAddressName, addressName)
+                packageInTruck = i
                 packageIdToDeliver = packageID
 
-        # after we find nearest package. deliver package
-        #deliverPackage(packageIdToDeliver)
-        # remove package from truck
-        #removeFromTruck(truck, packageId)
+        totalDistance = float (totalDistance + shortestDistance)
+
+        # after we find the nearest package. deliver package which updates the package status and the time
 
 
+        # remove package(s) from truck
+        packageToUpdate = packages.search(packageIdToDeliver)
 
+        #find other packages with same address
+        packagesToDeliver = []
+        for i in range(len(truck.loadedPackages)):
+            # get package number from truck list
+            packageID = int(truck.loadedPackages[i])
 
+            # associated int with the packageID from the packages hash table
+            package = packages.search(packageID)
+            if packageToUpdate.address == package.address:
+                packagesToDeliver.append(packageID)
 
-    pass
-        # update nearest package as delivered
-        # Don't forget to remove the packageID from truck._loadedPackages - infinite loop
+        for i in range(len(packagesToDeliver)):
+            packageToUpdate = packages.search(packagesToDeliver[i])
+            # update status to "Delivered"
+            packageToUpdate.status = "Delivered"
 
-truck1 = Truck(1, [5, 7, 15])
-deliverTruck(truck1)
+            # Time delivered is calculated by the distances traveled by the truck times 18 mph
+            packageToUpdate.timeDelivered = totalDistance * (18 / 60)
+            truck.loadedPackages.pop(packageInTruck)
 
-# deliverTruck(truck1)
+        print(truck)
+        print(packagesToDeliver)
+    return totalDistance
+
 def menu():
     print("Option: 1")
     print("Option: 2")
@@ -145,18 +152,18 @@ def menu():
 
     print("See ya!")
 
-# Fetch data from Hash Table
-# for i in range(len(packages.table)):
-#     print("Package: {}".format(packages.search(i + 1)))  # 1 to 40 is sent to packages.search()
 # for k in range(len(distances)):
 #     print("Distance: {}".format(distances[k]))  # 1 to 40 is sent to packages.search()
 #
 # for j in range(len(addresses)):
 #     print("Address: {}".format(addresses[j]))  # 1 to 40 is sent to packages.search()
 
+truck1 = Truck(1, [7, 29, 1, 11, 31, 32, 12, 20, 21, 4, 40, 14, 15, 16, 34, 23])
+truck2 = Truck(2, [27, 35, 18, 13, 39, 36, 3, 8, 9, 30, 6, 5, 37, 38, 25, 26])
+truck3 = Truck(3, [19, 2, 33, 28, 17, 24, 10, 22])
 
-print(getIndexForAddress('6351 South 900 East(84121)'))
-print(getDistancesBetweenAddresses('6351 South 900 East(84121)', 'HUB'))
-print(distances[26][1])
+print(deliverTruck(truck1) + deliverTruck(truck2) + deliverTruck(truck3))
 
-# See PyCharm help at https://www.jetbrains.com/help/pycharm/
+# Fetch data from Hash Table
+for i in range(len(packages.table)):
+    print("Package: {}".format(packages.search(i + 1)))  # 1 to 40 is sent to packages.search()
