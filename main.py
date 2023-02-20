@@ -226,7 +226,8 @@ def menu():
             print()
             menu()
         elif option == 0:
-            break
+            print("Good bye!")
+            return
         else:
             print("Try again")
             print()
