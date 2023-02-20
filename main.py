@@ -1,15 +1,15 @@
-# This is my header that i will fill in with information like
-# Name
-# Class
-# Date
-# Description:
+"""
+Name: Stephanie Katuzienski
+Class: C950
+Date: 2/20/23
+Description:    Deliver trucks using the greedy algorithm.
+                Also provide the status of all packages at a given point in time.
+"""
 import datetime
 
 from Objects.HashTable import ChainingHashTable
 from Objects.Package import loadPackageData, Package
 from Objects.Distance import loadDistanceData, Distance
-from Objects.Address import loadAddressData, Address
-import random
 
 from Objects.Truck import Truck
 
@@ -21,11 +21,15 @@ addresses = []
 
 # Load Data into Objects
 # Load: packages, trucks, distance
-loadAddressData(addresses)
 loadDistanceData(distances)
 loadPackageData(packages)
 
 
+"""
+Description: get the address Id associated with a given Address
+Big O Runtime Complexity: n
+Big O Space Complexity: n
+ """
 def getIndexForAddress(addressToFind):
     # Loop through the distanceArray comparing element 0
     for i in range(len(distances) + 1):
@@ -34,49 +38,51 @@ def getIndexForAddress(addressToFind):
     pass
 
 
-# getDistancesBetweenAddresses uses two address strings
+"""
+Description: Find the distance between two addresses
+Big O Runtime Complexity: 1
+Big O Space Complexity: 1
+ """
 def getDistancesBetweenAddresses(startAddress, endAddress):
     startingIndex = getIndexForAddress(startAddress)
     endIndex = getIndexForAddress(endAddress) + 1
     return float(distances[startingIndex][endIndex])
 
 
-def getShortestDistanceFromAddress(addressId):
-    minDistance = 100.0
-    addressIdOfShortestDistance = 0
-
-    for i in range(len(distances[addressId])):
-        # skip address info in file
-        if i == 0:
-            continue
-
-        # meaningful comment here
-        if minDistance > float(distances[addressId][i]) and float(distances[addressId][i]) != 0:
-            minDistance = float(distances[addressId][i])
-            addressIdOfShortestDistance = i
-
-    return addressIdOfShortestDistance
-
-
-def deliverTruck(truck, deliveryStartTime):
+"""
+Description:    Deliver truck takes the truck, a delivery start time, and a status time as parameters
+                It looks through the packages in the trucks and uses a greedy algorithm to determine which package
+                to deliver next. It also looks to see if Status time is passed. if so, it will provide the status of all
+Big O Runtime Complexity: n^3
+Big O Space Complexity: n^3
+ """
+def deliverTruck(truck, deliveryStartTime, statusTime):
     totalDistance: float = 0.0
     now = datetime.datetime.now()
     startingTime = now.replace(hour=8, minute=0, second=0, microsecond=0) + datetime.timedelta(
         minutes=deliveryStartTime)
     timeDelta = datetime.timedelta(minutes=0)
-    timeStringFormat = '%H:%M'
     startingAddressName = 'HUB'
 
+    # check to see if we have to provide status update
+    if statusTime != None and (startingTime + timeDelta).time() >= statusTime:
+        return
+
+    # set all packages on truck to in Route
+    for i in range(len(truck.loadedPackages)):
+        packageToUpdate = packages.search(truck.loadedPackages[i])
+        packageToUpdate.status = "In Route"
+
     # if truck 3, then update package 9 with new address
-    if (startingTime + timeDelta).time() >  datetime.time(hour= 10, minute=20, second=0, microsecond= 0):
+    if (startingTime + timeDelta).time() >= datetime.time(hour=10, minute=20, second=0, microsecond= 0):
         for i in range(len(truck.loadedPackages)):
             if truck.loadedPackages[i] == 9:
                 updatePackageNine = packages.search(9)
                 updatePackageNine.address = "410 S State St(84111)"
 
+    # big loop
     while truck.hasMorePackages():
         shortestDistance = float(100)
-
 
         # find package to deliver
         for i in range(len(truck.loadedPackages)):
@@ -126,15 +132,8 @@ def deliverTruck(truck, deliveryStartTime):
             # update time delivered
             packageToUpdate.timeDelivered = startingTime + timeDelta
 
-            # check to see if we have delivered the package on time
-            if packageToUpdate.deadline != "EOD":
-                parsedPackageToUpdateDeadlineTime = datetime.datetime.strptime(packageToUpdate.deadline, timeStringFormat).time()
-                if packageToUpdate.timeDelivered.time() > parsedPackageToUpdateDeadlineTime:
-                    packageToUpdate.status = "Delivered Late"
-                else:
-                    packageToUpdate.status = "Delivered On Time"
-            else:
-                packageToUpdate.status = "Delivered On Time"
+            # update Delivery Status
+            packageToUpdate.status = "Delivered"
 
             # find position in loaded truck array to delete because the array may have changed sizes if delivering
             # multiple packages to the same address
@@ -150,70 +149,82 @@ def deliverTruck(truck, deliveryStartTime):
 
         truck.distanceTraveled += shortestDistance
 
-        # time to go back and get the other packages
-        print(truck)
-        print(packagesToDeliver)
+        # check to see if we have to provide status update
+        if statusTime != None and (startingTime + timeDelta) != 0.0 and (startingTime + timeDelta).time() >= statusTime:
+            for i in range(len(packages.table)):
+                packageToFix = packages.search((i + 1))
+                if packageToFix.timeDelivered != 0:
+                    if packageToFix.timeDelivered.time() >= statusTime:
+                        packageToFix.status = "In Route"
+                        packageToFix.timeDelivered = 0
+
+            return
+
 
     if truck.id == 1:
+        # time to go back and get the other packages
         truck.distanceTraveled += getDistancesBetweenAddresses(packageToUpdate.address, "HUB")
 
     return totalDistance
 
-
+"""
+Description:    Menu for user to operate program
+Big O Runtime Complexity: n
+Big O Space Complexity: n
+ """
 def menu():
-    print("Option: 1")
-    print("Option: 2")
-    print("Option: 3")
-    print("Option: 4")
-    print("Option: 5")
+    print("Option: 1 Deliver Truck")
+    print("Option: 2 Check Status of Packages")
     print("Option 0: Exit")
 
-    menu()
     option = int(input("Choose option: "))
 
-    while option != 0:
-        if option == 1:
-            # do option 1 stuff
-            print("Yay! Option 1")
-        elif option == 2:
-            # do option 2 stuff
-            print("Yay! Option 2")
-        elif option == 3:
-            # do option 3 stuff
-            print("Yay! Option 3")
-        elif option == 4:
-            # do option 4 stuff
-            print("Yay! Option 4")
-        elif option == 5:
-            # do option 5 stuff
-            print("Yay! Option 5")
-        else:
-            # freakout
-            print("Boo! Try again")
+    if option == 1:
 
-        print()
-        menu()
-        option = int(input("Choose option: "))
+        # Load trucks with packages
+        truck1 = Truck(1, [4, 13, 14, 15, 16, 17, 19, 20, 21, 26, 34, 39, 40])
+        truck2 = Truck(2, [1, 3, 6, 7, 8, 10, 18, 25, 29, 30, 31, 32, 36, 37, 38])
+        truck3 = Truck(3, [2, 5, 9, 11, 12, 22, 23, 24, 27, 28, 33, 35])
 
-    print("See ya!")
+        # Deliver trucks
+        deliverTruck(truck1, 0, None)
+        deliverTruck(truck2, 65, None)
+        deliverTruck(truck3, 150, None)
+
+        # Output
+        print("\nDelivering Packages")
+        print("\nPackages Delivered")
+        for i in range(len(packages.table)):
+            print("Package: {}".format(packages.search(i + 1)))  # 1 to 40 is sent to packages.search()
+
+        print(f"Truck 1 Distance: {truck1.distanceTraveled}\nTruck 2 Distance: "
+              f"{truck2.distanceTraveled}\nTruck 3 Distance: {truck3.distanceTraveled}")
+        print(f"Total Distance {truck1.distanceTraveled + truck2.distanceTraveled + truck3.distanceTraveled}")
+
+    elif option == 2:
+        print("Enter Time to Check the Status of Packages: ")
+        hour = int(input("Hour: "))
+        minutes = int(input("Minutes: "))
+
+        # Load and deliver packages in trucks. then check times that they were delivered, print status
+        # Load trucks with packages
+        truck1 = Truck(1, [4, 13, 14, 15, 16, 17, 19, 20, 21, 26, 34, 39, 40])
+        truck2 = Truck(2, [1, 3, 6, 7, 8, 10, 18, 25, 29, 30, 31, 32, 36, 37, 38])
+        truck3 = Truck(3, [2, 5, 9, 11, 12, 22, 23, 24, 27, 28, 33, 35])
+
+        # Deliver trucks
+        deliverTruck(truck1, 0, datetime.time(hour= hour, minute = minutes))
+        deliverTruck(truck2, 65, datetime.time(hour = hour, minute = minutes))
+        deliverTruck(truck3, 150, datetime.time(hour = hour, minute = minutes))
+
+        for i in range(len(packages.table)):
+            print("Package: {}".format(packages.search(i + 1)))
 
 
-# for k in range(len(distances)):
-#     print("Distance: {}".format(distances[k]))  # 1 to 40 is sent to packages.search()
-#
-# for j in range(len(addresses)):
-#     print("Address: {}".format(addresses[j]))  # 1 to 40 is sent to packages.search()
-#
-truck1 = Truck(1, [4, 13, 14, 15, 16, 17, 19, 20, 21, 26, 34, 39, 40])
-truck2 = Truck(2, [1, 3, 6, 7, 8, 10, 18, 25, 29, 30, 31, 32, 36, 37, 38])
-truck3 = Truck(3, [2, 5, 9, 11, 12, 22, 23, 24, 27, 28, 33, 35])
+    else:
+        print("Try again")
 
-deliverTruck(truck1, 0)
-deliverTruck(truck2, 65)
-deliverTruck(truck3, 150)
-# Fetch data from Hash Table
-for i in range(len(packages.table)):
-    print("Package: {}".format(packages.search(i + 1)))  # 1 to 40 is sent to packages.search()
+print("Good Bye!")
 
-print(truck1, truck2, truck3)
-print(truck1.distanceTraveled + truck2.distanceTraveled + truck3.distanceTraveled)
+
+menu()

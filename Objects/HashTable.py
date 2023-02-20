@@ -1,14 +1,27 @@
-# HashTable class using chaining.
+"""
+    Description: Create a hashtable using Chaining
+    Big O Runtime Complexity: n
+    Big O Space Complexity: n
+"""
 class ChainingHashTable:
     # Constructor with optional initial capacity parameter.
     # Assigns all nodes with an empty list.
+    """
+        Description: Initalize Chaining Hash Table with a given size
+        Big O Runtime Complexity: n
+        Big O Space Complexity: n
+    """
     def __init__(self, initialCapacity=10):
         # initialize the hash table with empty node list entries.
         self.table = []
         for i in range(initialCapacity):
             self.table.append([])
 
-    # Inserts a new item into the hash table.
+    """
+        Description: Inserts a new item into the hash table.
+        Big O Runtime Complexity: n
+        Big O Space Complexity: n
+    """
     def insert(self, key, item):  # does both insert and update 
         # get the node list where this item will go.
         node = hash(key) % len(self.table)-1
@@ -26,8 +39,11 @@ class ChainingHashTable:
         nodeList.append(key_value)
         return True
 
-    # Searches for an item with matching key in the hash table.
-    # Returns the item if found, or None if not found.
+    """
+        Description: Searches for an item with matching key in the hash table.
+        Big O Runtime Complexity: n
+        Big O Space Complexity: n
+    """
     def search(self, key):
         # get the node list where this key would be.
         node = hash(key) % len(self.table)-1
@@ -40,7 +56,11 @@ class ChainingHashTable:
                 return kv[1]  # value
         return None
 
-    # Removes an item with matching key from the hash table.
+    """
+        Description: Removes an item with matching key from the hash table.
+        Big O Runtime Complexity: n
+        Big O Space Complexity: n
+    """
     def remove(self, key):
         # get the bucket list where this item will be removed from.
         node = hash(key) % len(self.table)-1

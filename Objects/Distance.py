@@ -1,24 +1,43 @@
 import csv
-from array import array
 
-
+"""
+    Description: Distance class that holds the distance between two points
+    Big O Runtime Complexity: 1
+    Big O Space Complexity: 1
+"""
 class Distance:
-    # Created a tuple for the weights.
-    # First int represents the addressID of the destination and the second float is the distance between the two points.
+    """
+        Description: Constructor for Distance
+        Big O Runtime Complexity: 1
+        Big O Space Complexity: 1
+    """
     def __init__(self, addressId, addressName, weights):
         self._addressId = addressId
         self._addressName = addressName
         self._weights = []
 
-    # Return String for dictionary for distances
+    """
+        Description: overload of Print function for this object
+        Big O Runtime Complexity: 1
+        Big O Space Complexity: 1
+    """
     def __str__(self):
         return "%s, %s, %s" % (
             self.addressId, self.addressName, self.weights)
 
+    """
+        Description: Returns the AddressId of Distance
+        Big O Runtime Complexity: 1
+        Big O Space Complexity: 1
+    """
     def getAddressId(self):
         return self._addressId
 
-
+"""
+    Description: Load Distance information from csv
+    Big O Runtime Complexity: n
+    Big O Space Complexity: n
+"""
 def loadDistanceData(distanceArray):
     fileName = 'C:\dev\SKatuzienski_TaskC950\DistanceList.csv'
     i = 0
