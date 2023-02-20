@@ -170,17 +170,18 @@ Big O Runtime Complexity: n
 Big O Space Complexity: n
  """
 def menu():
-    print("Option: 1 Deliver Truck")
-    print("Option: 2 Check Status of Packages")
-    print("Option 0: Exit")
-
-    option = int(input("Choose option: "))
-
-    # Load Data into Objects
-    # Load: packages, trucks, distance
-    loadDistanceData(distances)
-    loadPackageData(packages)
     while True:
+
+        print("Option: 1 Deliver Truck")
+        print("Option: 2 Check Status of Packages")
+        print("Option 0: Exit")
+
+        option = int(input("Choose option: "))
+
+        # Load Data into Objects
+        # Load: packages, trucks, distance
+        loadDistanceData(distances)
+        loadPackageData(packages)
         if option == 1:
 
             # Load trucks with packages
@@ -223,11 +224,14 @@ def menu():
 
             for i in range(len(packages.table)):
                 print("Package: {}".format(packages.search(i + 1)))
+
             print()
             menu()
+
         elif option == 0:
             print("Good bye!")
-            return
+            exit()
+
         else:
             print("Try again")
             print()
