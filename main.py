@@ -59,17 +59,28 @@ def getShortestDistanceFromAddress(addressId):
 
 
 def deliverTruck(truck, deliveryStartTime):
-
     totalDistance: float = 0.0
     now = datetime.datetime.now()
-    startingTime = now.replace(hour=8, minute=0, second=0, microsecond=0) + datetime.timedelta(minutes=deliveryStartTime)
+    startingTime = now.replace(hour=8, minute=0, second=0, microsecond=0) + datetime.timedelta(
+        minutes=deliveryStartTime)
     timeDelta = datetime.timedelta(minutes=0)
-    while truck.hasMorePackages():
+    timeStringFormat = '%H:%M'
+    startingAddressName = 'HUB'
 
-        shortestDistance = float(100)
-        startingAddressName = 'HUB'
-
+    # if truck 3, then update package 9 with new address
+    if (startingTime + timeDelta).time() >  datetime.time(hour= 10, minute=20, second=0, microsecond= 0):
         for i in range(len(truck.loadedPackages)):
+            if truck.loadedPackages[i] == 9:
+                updatePackageNine = packages.search(9)
+                updatePackageNine.address = "410 S State St(84111)"
+
+    while truck.hasMorePackages():
+        shortestDistance = float(100)
+
+
+        # find package to deliver
+        for i in range(len(truck.loadedPackages)):
+
             # get package number from truck list
             packageID = int(truck.loadedPackages[i])
 
@@ -80,21 +91,20 @@ def deliverTruck(truck, deliveryStartTime):
             addressName = package.address
 
             # check to see if I'm the nearest package
-            if shortestDistance > getDistancesBetweenAddresses(startingAddressName, addressName) and getDistancesBetweenAddresses(startingAddressName, addressName) != 0 and (packageID.deadline != "EOD"):
+            if shortestDistance > getDistancesBetweenAddresses(startingAddressName,addressName) and getDistancesBetweenAddresses(startingAddressName, addressName) != 0.0:
                 shortestDistance = getDistancesBetweenAddresses(startingAddressName, addressName)
-                packageInTruck = i
                 packageIdToDeliver = packageID
 
         totalDistance = float(totalDistance + shortestDistance)
 
         # after we find the nearest package. deliver package which updates the package status and the time
-
         # remove package(s) from truck
         packageToUpdate = packages.search(packageIdToDeliver)
 
-        # find other packages with same address
+        # Initalized Array for the other packages with same address as the packageIdToDeliver
         packagesToDeliver = []
 
+        # Grouping packages with same address
         for i in range(len(truck.loadedPackages)):
             # get package number from truck list
             packageID = int(truck.loadedPackages[i])
@@ -109,20 +119,38 @@ def deliverTruck(truck, deliveryStartTime):
         minutesToTravel = shortestDistance / (18 / 60)
         timeDelta = timeDelta + datetime.timedelta(minutes=minutesToTravel)
 
-
+        # Updating statuses based on time
         for i in range(len(packagesToDeliver)):
             packageToUpdate = packages.search(packagesToDeliver[i])
-            # update status to "Delivered"
-            packageToUpdate.status = "Delivered"
 
             # update time delivered
             packageToUpdate.timeDelivered = startingTime + timeDelta
-            truck.loadedPackages.pop(packageInTruck)
+
+            # check to see if we have delivered the package on time
+            if packageToUpdate.deadline != "EOD":
+                parsedPackageToUpdateDeadlineTime = datetime.datetime.strptime(packageToUpdate.deadline, timeStringFormat).time()
+                if packageToUpdate.timeDelivered.time() > parsedPackageToUpdateDeadlineTime:
+                    packageToUpdate.status = "Delivered Late"
+                else:
+                    packageToUpdate.status = "Delivered On Time"
+            else:
+                packageToUpdate.status = "Delivered On Time"
+
+            # find position in loaded truck array to delete because the array may have changed sizes if delivering
+            # multiple packages to the same address
+            for k in range(len(truck.loadedPackages)):
+                if packageToUpdate.id == truck.loadedPackages[k]:
+                    positionInArray = k
+                    break
+
+            startingAddressName = packageToUpdate.address
+
+            # deliver package
+            truck.loadedPackages.pop(positionInArray)
 
         truck.distanceTraveled += shortestDistance
 
         # time to go back and get the other packages
-
         print(truck)
         print(packagesToDeliver)
 
@@ -176,17 +204,13 @@ def menu():
 # for j in range(len(addresses)):
 #     print("Address: {}".format(addresses[j]))  # 1 to 40 is sent to packages.search()
 #
-truck1 = Truck(1, [ 7, 29, 19, 13, 39, 8, 9, 30, 20, 21, 4, 40, 14, 15, 16, 34])
-truck2 = Truck(2, [18, 1, 36, 3, 6, 31, 32, 5, 37, 38, 25, 26])
-truck3 = Truck(3, [27, 35, 2, 33, 11, 28, 17, 12, 24, 23, 10, 22])
-
-
-
-
+truck1 = Truck(1, [4, 13, 14, 15, 16, 17, 19, 20, 21, 26, 34, 39, 40])
+truck2 = Truck(2, [1, 3, 6, 7, 8, 10, 18, 25, 29, 30, 31, 32, 36, 37, 38])
+truck3 = Truck(3, [2, 5, 9, 11, 12, 22, 23, 24, 27, 28, 33, 35])
 
 deliverTruck(truck1, 0)
 deliverTruck(truck2, 65)
-deliverTruck(truck3, truck1.distanceTraveled / (18/60))
+deliverTruck(truck3, 150)
 # Fetch data from Hash Table
 for i in range(len(packages.table)):
     print("Package: {}".format(packages.search(i + 1)))  # 1 to 40 is sent to packages.search()

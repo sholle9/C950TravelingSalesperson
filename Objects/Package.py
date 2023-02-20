@@ -32,7 +32,7 @@ def loadPackageData(packageHashTable):
             pZipCode = int(package[4])
             pDeadline = str(package[5])
             pWeight = int(package[6])
-            pStatus = 'En Route'
+            pStatus = 'At the HUB'
 
             p = Package(pID, pAddress, pCity, pState, pZipCode, pDeadline, pWeight, pStatus)
             packageHashTable.insert(pID, p)
