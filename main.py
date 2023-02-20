@@ -19,10 +19,7 @@ trucks = []
 distances = []
 addresses = []
 
-# Load Data into Objects
-# Load: packages, trucks, distance
-loadDistanceData(distances)
-loadPackageData(packages)
+
 
 
 """
@@ -179,52 +176,61 @@ def menu():
 
     option = int(input("Choose option: "))
 
-    if option == 1:
+    # Load Data into Objects
+    # Load: packages, trucks, distance
+    loadDistanceData(distances)
+    loadPackageData(packages)
+    while True:
+        if option == 1:
 
-        # Load trucks with packages
-        truck1 = Truck(1, [4, 13, 14, 15, 16, 17, 19, 20, 21, 26, 34, 39, 40])
-        truck2 = Truck(2, [1, 3, 6, 7, 8, 10, 18, 25, 29, 30, 31, 32, 36, 37, 38])
-        truck3 = Truck(3, [2, 5, 9, 11, 12, 22, 23, 24, 27, 28, 33, 35])
+            # Load trucks with packages
+            truck1 = Truck(1, [4, 13, 14, 15, 16, 17, 19, 20, 21, 26, 34, 39, 40])
+            truck2 = Truck(2, [1, 3, 6, 7, 8, 10, 18, 25, 29, 30, 31, 32, 36, 37, 38])
+            truck3 = Truck(3, [2, 5, 9, 11, 12, 22, 23, 24, 27, 28, 33, 35])
 
-        # Deliver trucks
-        deliverTruck(truck1, 0, None)
-        deliverTruck(truck2, 65, None)
-        deliverTruck(truck3, 150, None)
+            # Deliver trucks
+            deliverTruck(truck1, 0, None)
+            deliverTruck(truck2, 65, None)
+            deliverTruck(truck3, 150, None)
 
-        # Output
-        print("\nDelivering Packages")
-        print("\nPackages Delivered")
-        for i in range(len(packages.table)):
-            print("Package: {}".format(packages.search(i + 1)))  # 1 to 40 is sent to packages.search()
+            # Output
+            print("\nDelivering Packages")
+            print("\nPackages Delivered")
+            for i in range(len(packages.table)):
+                print("Package: {}".format(packages.search(i + 1)))  # 1 to 40 is sent to packages.search()
 
-        print(f"Truck 1 Distance: {truck1.distanceTraveled}\nTruck 2 Distance: "
-              f"{truck2.distanceTraveled}\nTruck 3 Distance: {truck3.distanceTraveled}")
-        print(f"Total Distance {truck1.distanceTraveled + truck2.distanceTraveled + truck3.distanceTraveled}")
+            print(f"Truck 1 Distance: {truck1.distanceTraveled}\nTruck 2 Distance: "
+                  f"{truck2.distanceTraveled}\nTruck 3 Distance: {truck3.distanceTraveled}")
+            print(f"Total Distance {truck1.distanceTraveled + truck2.distanceTraveled + truck3.distanceTraveled}")
+            print()
+            menu()
 
-    elif option == 2:
-        print("Enter Time to Check the Status of Packages: ")
-        hour = int(input("Hour: "))
-        minutes = int(input("Minutes: "))
+        elif option == 2:
+            print("Enter Time to Check the Status of Packages: ")
+            hour = int(input("Hour: "))
+            minutes = int(input("Minutes: "))
 
-        # Load and deliver packages in trucks. then check times that they were delivered, print status
-        # Load trucks with packages
-        truck1 = Truck(1, [4, 13, 14, 15, 16, 17, 19, 20, 21, 26, 34, 39, 40])
-        truck2 = Truck(2, [1, 3, 6, 7, 8, 10, 18, 25, 29, 30, 31, 32, 36, 37, 38])
-        truck3 = Truck(3, [2, 5, 9, 11, 12, 22, 23, 24, 27, 28, 33, 35])
+            # Load and deliver packages in trucks. then check times that they were delivered, print status
+            # Load trucks with packages
+            truck1 = Truck(1, [4, 13, 14, 15, 16, 17, 19, 20, 21, 26, 34, 39, 40])
+            truck2 = Truck(2, [1, 3, 6, 7, 8, 10, 18, 25, 29, 30, 31, 32, 36, 37, 38])
+            truck3 = Truck(3, [2, 5, 9, 11, 12, 22, 23, 24, 27, 28, 33, 35])
 
-        # Deliver trucks
-        deliverTruck(truck1, 0, datetime.time(hour= hour, minute = minutes))
-        deliverTruck(truck2, 65, datetime.time(hour = hour, minute = minutes))
-        deliverTruck(truck3, 150, datetime.time(hour = hour, minute = minutes))
+            # Deliver trucks
+            deliverTruck(truck1, 0, datetime.time(hour= hour, minute = minutes))
+            deliverTruck(truck2, 65, datetime.time(hour = hour, minute = minutes))
+            deliverTruck(truck3, 150, datetime.time(hour = hour, minute = minutes))
 
-        for i in range(len(packages.table)):
-            print("Package: {}".format(packages.search(i + 1)))
-
-
-    else:
-        print("Try again")
-
-print("Good Bye!")
-
+            for i in range(len(packages.table)):
+                print("Package: {}".format(packages.search(i + 1)))
+            print()
+            menu()
+        elif option == 0:
+            break
+        else:
+            print("Try again")
+            print()
+            menu()
 
 menu()
+
