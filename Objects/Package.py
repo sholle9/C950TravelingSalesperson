@@ -36,7 +36,7 @@ class Package:
     Big O Space Complexity: n
 """
 def loadPackageData(packageHashTable):
-    fileName = 'C:\dev\SKatuzienski_TaskC950\PackageList.csv'
+    fileName = '.\PackageList.csv'
     with open(fileName) as packages:
         packageData = csv.reader(packages, delimiter=',')
         next(packageData)  # skip header

@@ -39,7 +39,7 @@ class Distance:
     Big O Space Complexity: n
 """
 def loadDistanceData(distanceArray):
-    fileName = 'C:\dev\SKatuzienski_TaskC950\DistanceList.csv'
+    fileName = '.\DistanceList.csv'
     i = 0
 
     with open(fileName) as distances:

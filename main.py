@@ -1,5 +1,6 @@
 """
 Name: Stephanie Katuzienski
+Student ID: 000658549
 Class: C950
 Date: 2/20/23
 Description:    Deliver trucks using the greedy algorithm.
