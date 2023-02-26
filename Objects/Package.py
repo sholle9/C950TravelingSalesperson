@@ -1,14 +1,14 @@
 import csv
 """
     Description: Package class that contains the information about a package
-    Big O Runtime Complexity: 1
-    Big O Space Complexity: 1
+    Big O Runtime Complexity: O(1)
+    Big O Space Complexity: O(1)
 """
 class Package:
     """
         Description: Constructor for Package
-        Big O Runtime Complexity: 1
-        Big O Space Complexity: 1
+        Big O Runtime Complexity: O(1)
+        Big O Space Complexity: O(1)
     """
     def __init__(self, id, address, city, state, zipCode, deadline, weight, status):
         self.id = id
@@ -23,8 +23,8 @@ class Package:
 
     """
         Description: overload of Print function for this object
-        Big O Runtime Complexity: 1
-        Big O Space Complexity: 1
+        Big O Runtime Complexity: O(1)
+        Big O Space Complexity: O(1)
     """
     def __str__(self):
         return " %s, %s, %s, %s, %s, %s, %s, %s, %s" % (
@@ -33,8 +33,8 @@ class Package:
 
 """
     Description: Load package information from csv
-    Big O Runtime Complexity: n
-    Big O Space Complexity: n
+    Big O Runtime Complexity: O(n)
+    Big O Space Complexity: O(n)
 """
 def loadPackageData(packageHashTable):
     fileName = '.\PackageList.csv'

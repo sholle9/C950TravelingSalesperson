@@ -1,15 +1,15 @@
 """
     Description: Create a hashtable using Chaining
-    Big O Runtime Complexity: n
-    Big O Space Complexity: n
+    Big O Runtime Complexity: O(n)
+    Big O Space Complexity: O(n)
 """
 class ChainingHashTable:
     # Constructor with optional initial capacity parameter.
     # Assigns all nodes with an empty list.
     """
         Description: Initalize Chaining Hash Table with a given size
-        Big O Runtime Complexity: n
-        Big O Space Complexity: n
+        Big O Runtime Complexity: O(n)
+        Big O Space Complexity: O(n)
     """
     def __init__(self, initialCapacity=10):
         # initialize the hash table with empty node list entries.
@@ -19,8 +19,8 @@ class ChainingHashTable:
 
     """
         Description: Inserts a new item into the hash table.
-        Big O Runtime Complexity: n
-        Big O Space Complexity: n
+        Big O Runtime Complexity: O(n)
+        Big O Space Complexity: O(n)
     """
     def insert(self, key, item):  # does both insert and update 
         # get the node list where this item will go.
@@ -41,8 +41,8 @@ class ChainingHashTable:
 
     """
         Description: Searches for an item with matching key in the hash table.
-        Big O Runtime Complexity: n
-        Big O Space Complexity: n
+        Big O Runtime Complexity: O(n)
+        Big O Space Complexity: O(n)
     """
     def search(self, key):
         # get the node list where this key would be.
@@ -58,8 +58,8 @@ class ChainingHashTable:
 
     """
         Description: Removes an item with matching key from the hash table.
-        Big O Runtime Complexity: n
-        Big O Space Complexity: n
+        Big O Runtime Complexity: O(n)
+        Big O Space Complexity: O(n)
     """
     def remove(self, key):
         # get the bucket list where this item will be removed from.

@@ -25,8 +25,8 @@ addresses = []
 
 """
 Description: get the address Id associated with a given Address
-Big O Runtime Complexity: n
-Big O Space Complexity: n
+Big O Runtime Complexity: O(n)
+Big O Space Complexity: O(n)
  """
 def getIndexForAddress(addressToFind):
     # Loop through the distanceArray comparing element 0
@@ -38,8 +38,8 @@ def getIndexForAddress(addressToFind):
 
 """
 Description: Find the distance between two addresses
-Big O Runtime Complexity: 1
-Big O Space Complexity: 1
+Big O Runtime Complexity: O(1)
+Big O Space Complexity: O(1)
  """
 def getDistancesBetweenAddresses(startAddress, endAddress):
     startingIndex = getIndexForAddress(startAddress)
@@ -51,8 +51,8 @@ def getDistancesBetweenAddresses(startAddress, endAddress):
 Description:    Deliver truck takes the truck, a delivery start time, and a status time as parameters
                 It looks through the packages in the trucks and uses a greedy algorithm to determine which package
                 to deliver next. It also looks to see if Status time is passed. if so, it will provide the status of all
-Big O Runtime Complexity: n^2
-Big O Space Complexity: n^2
+Big O Runtime Complexity: O(n^2)
+Big O Space Complexity: O(n^2)
  """
 def deliverTruck(truck, deliveryStartTime, statusTime):
     totalDistance: float = 0.0
@@ -168,8 +168,8 @@ def deliverTruck(truck, deliveryStartTime, statusTime):
 
 """
 Description:    Menu for user to operate program
-Big O Runtime Complexity: n
-Big O Space Complexity: n
+Big O Runtime Complexity: O(n)
+Big O Space Complexity: O(n)
  """
 def menu():
     while True:
