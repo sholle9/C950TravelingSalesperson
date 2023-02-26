@@ -51,8 +51,8 @@ def getDistancesBetweenAddresses(startAddress, endAddress):
 Description:    Deliver truck takes the truck, a delivery start time, and a status time as parameters
                 It looks through the packages in the trucks and uses a greedy algorithm to determine which package
                 to deliver next. It also looks to see if Status time is passed. if so, it will provide the status of all
-Big O Runtime Complexity: n^3
-Big O Space Complexity: n^3
+Big O Runtime Complexity: n^2
+Big O Space Complexity: n^2
  """
 def deliverTruck(truck, deliveryStartTime, statusTime):
     totalDistance: float = 0.0
@@ -84,6 +84,7 @@ def deliverTruck(truck, deliveryStartTime, statusTime):
 
         # find package to deliver
         for i in range(len(truck.loadedPackages)):
+            #for packageID in truck.loadedPackages
 
             # get package number from truck list
             packageID = int(truck.loadedPackages[i])
@@ -175,6 +176,7 @@ def menu():
 
         print("Option: 1 Deliver Truck")
         print("Option: 2 Check Status of Packages")
+        print("Option: 3 Single Package Search at Specific Time")
         print("Option 0: Exit")
 
         option = int(input("Choose option: "))
@@ -208,7 +210,7 @@ def menu():
             menu()
 
         elif option == 2:
-            print("Enter Time to Check the Status of Packages: ")
+            print("Enter Time to Check the Status of All Packages: ")
             hour = int(input("Hour: "))
             minutes = int(input("Minutes: "))
 
@@ -226,6 +228,28 @@ def menu():
             for i in range(len(packages.table)):
                 print("Package: {}".format(packages.search(i + 1)))
 
+            print()
+            menu()
+
+        elif option == 3:
+
+            print("Enter PackageID to Check for Single Package Status at a Given Time: ")
+            lookupPackageID = int(input("PackageID: "))
+            hour = int(input("Hour: "))
+            minutes = int(input("Minutes: "))
+
+            # Load and deliver packages in trucks. then check times that they were delivered, print status
+            # Load trucks with packages
+            truck1 = Truck(1, [4, 13, 14, 15, 16, 17, 19, 20, 21, 26, 34, 39, 40])
+            truck2 = Truck(2, [1, 3, 6, 7, 8, 10, 18, 25, 29, 30, 31, 32, 36, 37, 38])
+            truck3 = Truck(3, [2, 5, 9, 11, 12, 22, 23, 24, 27, 28, 33, 35])
+
+            # Deliver trucks
+            deliverTruck(truck1, 0, datetime.time(hour=hour, minute=minutes))
+            deliverTruck(truck2, 65, datetime.time(hour=hour, minute=minutes))
+            deliverTruck(truck3, 150, datetime.time(hour=hour, minute=minutes))
+
+            print("Package: ", packages.search(lookupPackageID) )
             print()
             menu()
 

@@ -30,6 +30,7 @@ class Package:
         return " %s, %s, %s, %s, %s, %s, %s, %s, %s" % (
             self.id, self.address, self.city, self.state, self.zipCode, self.deadline, self.weight, self.status, self.timeDelivered)
 
+
 """
     Description: Load package information from csv
     Big O Runtime Complexity: n
